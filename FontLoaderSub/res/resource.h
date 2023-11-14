@@ -2,7 +2,7 @@
 #define RESOURCE_H
 
 #ifndef FONTLOADERSUB_GIT_VERSION
-#define FONTLOADERSUB_GIT_VERSION "ver.unknown"
+#define FONTLOADERSUB_GIT_VERSION "[AmusementClub r7.7]"
 #endif
 
 #define IDS_APP_NAME_VER 2
