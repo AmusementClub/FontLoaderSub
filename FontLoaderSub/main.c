@@ -112,7 +112,8 @@ static DWORD WINAPI AppWorker(LPVOID param) {
       if (MOCK_SUB_PATH) {
         r = fl_add_subs(&c->loader, MOCK_SUB_PATH);
       }
-      for (int i = 1; i < c->argc && r == FL_OK; i++) {
+      int i = (c->argc >= 3 && lstrcmpW(c->argv[1], L"--font-dir") == 0) ? 3 : 1;
+      for (; i < c->argc && r == FL_OK; i++) {
         r = fl_add_subs(&c->loader, c->argv[i]);
       }
       c->app_state = APP_LOAD_CACHE;
@@ -474,7 +475,10 @@ static int AppInit(FL_AppCtx *c, HINSTANCE hInst, allocator_t *alloc) {
   if (fl_init(&c->loader, c->alloc) != FL_OK)
     return 0;
   str_db_init(&c->log, c->alloc, 0, 0);
-  c->font_path = str_db_get(&c->full_exe_path, 0);
+  if (c->argc >= 3 && lstrcmpW(c->argv[1], L"--font-dir") == 0)
+    c->font_path = c->argv[2];
+  else
+    c->font_path = str_db_get(&c->full_exe_path, 0);
 
   if (MOCK_FONT_PATH)
     c->font_path = MOCK_FONT_PATH;
